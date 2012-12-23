@@ -3,6 +3,8 @@ module Biolab.Types (
     Measurement(..),
     SampleId(..),
     LabeledData,
+    MesType(..),
+    ExpData,
     )
 where
 import Data.DateTime (DateTime)
@@ -18,6 +20,8 @@ data Well = Well {
 
 wellStr :: Well -> String
 wellStr w = concat ["(", [wRow w],",",show . wColumn $ w,")"]
+
+data MesType = Absorbance Int | Fluorescence Int Int | Luminesense Int
 
 data Measurement = Measurement {
         mExpDesc :: String,
