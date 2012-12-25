@@ -14,7 +14,7 @@ import qualified Data.Map as M
 import Data.Vector (Vector)
 import Data.Map (Map)
 
-newtype RawMeasurement = RawMeasurement {mVal :: Double} deriving (Eq, Ord)
+newtype RawMeasurement = RawMeasurement {mVal :: Double} deriving (Eq, Ord, Show)
 data SampleId = SampleId { sidExpId :: String, sidPlate :: Int, sidWell :: Well} deriving (Eq, Ord, Show, Read)
 data MesType = Absorbance Int | Fluorescence Int Int | Luminesense Int deriving (Eq, Ord, Show, Read)
 type ColonySample = Vector(DateTime, RawMeasurement)
