@@ -7,7 +7,7 @@ module Biolab.Types (
     NormalizedMeasurement(..),
     ExpData,
     wellStr,
-    ColonySample,
+    ColonySample(..),
     AbsorbanceSample(..),
     FluorescenseSample(..),
     LuminescenseSample(..),
@@ -15,6 +15,9 @@ module Biolab.Types (
     RawAbsorbance(..),
     RawFluorescence(..),
     RawLuminescense(..),
+    NormalizedAbsorbance(..),
+    NormalizedFluorescence(..),
+    NormalizedLuminescense(..),
     )
 where
 import Data.DateTime (DateTime)
@@ -37,16 +40,19 @@ class ColonySample a where
 
 data AbsorbanceSample a = AbsorbanceSample { asWaveLength :: Int, asMes :: ColonyMeasurements a }
 type RawAbsorbance = AbsorbanceSample RawMeasurement
+type NormalizedAbsorbance = AbsorbanceSample NormalizedMeasurement
 instance ColonySample AbsorbanceSample where
     measurements = asMes
 
 data FluorescenseSample a = FluorescenseSample { flExcitation :: Int, flEmission :: Int, flMes :: ColonyMeasurements a }
 type RawFluorescence = FluorescenseSample RawMeasurement
+type NormalizedFluorescence = FluorescenseSample NormalizedMeasurement
 instance ColonySample FluorescenseSample where
     measurements = flMes
 
 data LuminescenseSample a = LuminescenseSample { lsWaveLength :: Int, lsMes :: ColonyMeasurements a }
 type RawLuminescense = LuminescenseSample RawMeasurement
+type NormalizedLuminescense = LuminescenseSample NormalizedMeasurement
 instance ColonySample LuminescenseSample where
     measurements = lsMes
 
