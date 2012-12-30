@@ -37,24 +37,28 @@ type NormalizedColonyMeasurements = ColonyMeasurements NormalizedMeasurement
 
 class ColonySample a where
     measurements :: a b -> ColonyMeasurements b
+    process :: (ColonyMeasurements b -> ColonyMeasurements c) -> a b -> a c
 
 data AbsorbanceSample a = AbsorbanceSample { asWaveLength :: Int, asMes :: ColonyMeasurements a }
 type RawAbsorbance = AbsorbanceSample RawMeasurement
 type NormalizedAbsorbance = AbsorbanceSample NormalizedMeasurement
 instance ColonySample AbsorbanceSample where
     measurements = asMes
+    process f as = as {asMes = f . asMes $ as}
 
 data FluorescenseSample a = FluorescenseSample { flExcitation :: Int, flEmission :: Int, flMes :: ColonyMeasurements a }
 type RawFluorescence = FluorescenseSample RawMeasurement
 type NormalizedFluorescence = FluorescenseSample NormalizedMeasurement
 instance ColonySample FluorescenseSample where
     measurements = flMes
+    process f fl = fl {flMes = f . flMes $ fl}
 
 data LuminescenseSample a = LuminescenseSample { lsWaveLength :: Int, lsMes :: ColonyMeasurements a }
 type RawLuminescense = LuminescenseSample RawMeasurement
 type NormalizedLuminescense = LuminescenseSample NormalizedMeasurement
 instance ColonySample LuminescenseSample where
     measurements = lsMes
+    process f lum = lum {lsMes = f . lsMes $ lum}
 
 data Well = Well {
         wRow :: Char,
