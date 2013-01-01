@@ -27,7 +27,7 @@ import Data.Vector (Vector)
 import Data.Map (Map)
 
 newtype RawMeasurement = RawMeasurement {mVal :: Double} deriving (Eq, Ord, Show)
-newtype NormalizedMeasurement = NormalizedMeasurement {nmVal :: Double}
+newtype NormalizedMeasurement = NormalizedMeasurement {nmVal :: Double} deriving (Eq, Ord, Show)
 
 data SampleId = SampleId { sidExpId :: String, sidPlate :: Int, sidWell :: Well} deriving (Eq, Ord, Show, Read)
 data MesType = Absorbance Int | Fluorescence Int Int | Luminesense Int deriving (Eq, Ord, Show, Read)
@@ -40,21 +40,21 @@ class ColonySample a where
     measurements :: a b -> ColonyMeasurementsData b
     process :: (ColonyMeasurementsData b -> ColonyMeasurementsData c) -> a b -> a c
 
-data AbsorbanceSample a = AbsorbanceSample { asWaveLength :: Int, asMes :: ColonyMeasurementsData a }
+data AbsorbanceSample a = AbsorbanceSample { asWaveLength :: Int, asMes :: ColonyMeasurementsData a } deriving Show
 type RawAbsorbance = AbsorbanceSample RawMeasurement
 type NormalizedAbsorbance = AbsorbanceSample NormalizedMeasurement
 instance ColonySample AbsorbanceSample where
     measurements = asMes
     process f as = as {asMes = f . asMes $ as}
 
-data FluorescenseSample a = FluorescenseSample { flExcitation :: Int, flEmission :: Int, flMes :: ColonyMeasurementsData a }
+data FluorescenseSample a = FluorescenseSample { flExcitation :: Int, flEmission :: Int, flMes :: ColonyMeasurementsData a } deriving Show
 type RawFluorescence = FluorescenseSample RawMeasurement
 type NormalizedFluorescence = FluorescenseSample NormalizedMeasurement
 instance ColonySample FluorescenseSample where
     measurements = flMes
     process f fl = fl {flMes = f . flMes $ fl}
 
-data LuminescenseSample a = LuminescenseSample { lsWaveLength :: Int, lsMes :: ColonyMeasurementsData a }
+data LuminescenseSample a = LuminescenseSample { lsWaveLength :: Int, lsMes :: ColonyMeasurementsData a } deriving Show
 type RawLuminescense = LuminescenseSample RawMeasurement
 type NormalizedLuminescense = LuminescenseSample NormalizedMeasurement
 instance ColonySample LuminescenseSample where
