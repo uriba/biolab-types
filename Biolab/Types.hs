@@ -40,21 +40,21 @@ class ColonySample a where
     measurements :: a b -> ColonyMeasurementsData b
     process :: (ColonyMeasurementsData b -> ColonyMeasurementsData c) -> a b -> a c
 
-data AbsorbanceSample a = AbsorbanceSample { asWaveLength :: Int, asMes :: ColonyMeasurementsData a } deriving Show
+data AbsorbanceSample a = AbsorbanceSample { asWaveLength :: Int, asMes :: ColonyMeasurementsData a } deriving (Show,Eq)
 type RawAbsorbance = AbsorbanceSample RawMeasurement
 type NormalizedAbsorbance = AbsorbanceSample NormalizedMeasurement
 instance ColonySample AbsorbanceSample where
     measurements = asMes
     process f as = as {asMes = f . asMes $ as}
 
-data FluorescenseSample a = FluorescenseSample { flExcitation :: Int, flEmission :: Int, flMes :: ColonyMeasurementsData a } deriving Show
+data FluorescenseSample a = FluorescenseSample { flExcitation :: Int, flEmission :: Int, flMes :: ColonyMeasurementsData a } deriving (Show,Eq)
 type RawFluorescence = FluorescenseSample RawMeasurement
 type NormalizedFluorescence = FluorescenseSample NormalizedMeasurement
 instance ColonySample FluorescenseSample where
     measurements = flMes
     process f fl = fl {flMes = f . flMes $ fl}
 
-data LuminescenseSample a = LuminescenseSample { lsWaveLength :: Int, lsMes :: ColonyMeasurementsData a } deriving Show
+data LuminescenseSample a = LuminescenseSample { lsWaveLength :: Int, lsMes :: ColonyMeasurementsData a } deriving (Show,Eq)
 type RawLuminescense = LuminescenseSample RawMeasurement
 type NormalizedLuminescense = LuminescenseSample NormalizedMeasurement
 instance ColonySample LuminescenseSample where
@@ -64,6 +64,7 @@ instance ColonySample LuminescenseSample where
 data ColonyMeasurements a   = AbsorbanceMeasurement (AbsorbanceSample a)
                             | FluorescenseMeasurement (FluorescenseSample a)
                             | LuminesenseMeasurement (LuminescenseSample a)
+                            deriving (Show,Eq)
 
 data Well = Well {
         wRow :: Char,
